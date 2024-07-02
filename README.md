@@ -1,1 +1,2 @@
 # kminbpe
+This repository is based on the andrej karpathy's tokeniser video , and is created as per the exercise he recommends to complete. the link for the repository of the exercise and other content regarding the video : https://github.com/karpathy/minbpe
