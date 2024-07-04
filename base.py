@@ -13,8 +13,8 @@ def get_stats(ids, counts=None):
 def merge(ids, pair, idx):
     new_tokens=[]
     i=0
-    while i<len(ids)-1:
-        if (ids[i], ids[i+1]) == pair:
+    while i<len(ids):
+        if i<len(ids)-1 and (ids[i], ids[i+1]) == pair:
             new_tokens.append(idx)
             i+=1
         else:

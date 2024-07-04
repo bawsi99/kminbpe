@@ -34,37 +34,26 @@ class BasicTokenizer():
         self.vocab = vocab # used in decode
     def encode(self, text):
 
-        #change code 
-        k=0
+        mergecopy = sorted(self.merges, key=self.merges.get)
         ids = list(text.encode("utf-8"))
-        stats = get_stats(ids)
-        new_tokens=[]
-
-
-
-        for i in range(len(ids)-1):
-            for mergem in self.merges:
-                if (stats) == mergem:
-                    new_tokens.append(mergem.get)
-                    k+=1
-                else:
-                    new_tokens.append(ids[i])
-            ids = new_tokens
-        return new_tokens, k
-
-
-
-
-
-
+        for i in mergecopy:       
+            ids = merge(ids, i, self.merges[i])
+        return ids
         
-    # def decode(self, ids):
+    def decode(self, ids):
 
-text='Ｕｎｉｃｏｄｅ! 🅤🅝🅘🅒🅞🅓🅔‽ 🇺‌🇳‌🇮‌🇨‌🇴‌🇩‌🇪! 😄 The very name strikes fear and awe into the hearts of programmers worldwide.'
+        str = b"".join(self.vocab[i] for i in ids)
+        return str.decode("utf-8",errors="replace")
+
+
+
+
+text='Ｕｎｉｃｏｄｅ! 🅤🅝🅘🅒🅞🅓🅔‽ 🇺‌🇳‌🇮‌🇨‌🇴‌🇩‌🇪! 😄 The very name strikes fear and awe into the hearts of programmers worldwide. AHAHDBAHBaasm sadvcaaajh jsaccccccccbh hhhhhhhhhhcbsjah gascgjasbhjasbja jhbashbhj bhasbhjasbxhjas hbashbhb jhabhjabhjx ab'
 # ids = list(text.encode("utf-8"))
 # print(len(ids))
 # print(get_stats(ids))
 BT = BasicTokenizer()
 print(BT.train(text=text, vocab_size=260, verbose=True))
-print(BT.encode(text))
-
+k=BT.encode('Ｕｎｉｃｏｄｅ! 🅤🅝🅘🅒🅞🅓🅔‽ 🇺‌🇳‌🇮‌🇨‌🇴‌🇩‌🇪! 😄')
+m = BT.decode(k)
+print(m == 'Ｕｎｉｃｏｄｅ! 🅤🅝🅘🅒🅞🅓🅔‽ 🇺‌🇳‌🇮‌🇨‌🇴‌🇩‌🇪! 😄')
